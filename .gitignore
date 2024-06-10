@@ -1,0 +1,13 @@
+auto/
+*.bib
+*.aux
+*.log
+*.pdf
+*.run.xml
+*.synctex.gz
+result
+.direnv
+.envrc
+_region_*
+*.bbl
+*.blg

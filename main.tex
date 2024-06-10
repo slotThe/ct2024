@@ -1,0 +1,307 @@
+\documentclass[portrait, noFonts]{betterposter/betterposter}
+\usepackage[type=poster, math=fancy, font=libertine, osf]{styles/style}
+\input{tikzit.tikzstyles} % Much bigger lines for a poster.
+
+% Tweak default appearance of the centre; XXX: perhaps this should be
+% the default?
+\RenewDocumentCommand{\buildCenter}{m o o m o}{
+  \IfBooleanTF{#1}
+    {\ensuremath{\mathbb{#2}(\leftidx{_{\mathsf{#3}}}{{#4}}{_{\mathsf{#5}}})}\xspace}
+    {\ensuremath{\mathbb{#2}(\leftidx{_{\mathsf{#3}}}{\cat{#4}}{_{\mathsf{#5}}})}\xspace}
+}
+\RenewDocumentCommand{\cent}{s O{} m O{}}{\buildCenter{#1}[Z][#2]{#3}[#4]}
+
+% Use stars instead of \vee's for duals.
+\renewcommand*{\ld}[1]{\leftidx{^{\star}}{\hspace{-0.1em}#1}{}}     % left dual
+\renewcommand*{\lld}[1]{\leftidx{^{\star\star}}{\hspace{-0.05em}#1}{}}  % left double dual
+\renewcommand*{\rd}[1]{{#1}^{\star}}
+\renewcommand*{\rrd}[1]{{#1}^{\star\star}}
+
+% Even smaller actions.
+\makeatletter
+\renewcommand*{\@smallTriangle}[2]{\raisebox{\depth+0.070em}{\scalebox{0.65}{\ensuremath{#1#2}}}}
+\renewcommand*{\ract}{\mathbin{\mathpalette\@smallTriangle\lhd}}
+\makeatother
+
+% Tweak betterposter's default font sizes.
+\renewcommand{\fontsizestandard}{\fontsize{40.00}{55.50} \selectfont} % Bit bigger
+\renewcommand{\fontsizetitle}{\fontsize{66.00}{100.00} \selectfont}   % Bit smaller
+\renewcommand{\fontsizemain}{\fontsize{150.00}{200.00} \selectfont}   % Much bigger
+
+% A colourful box to (hopefully) grab the reader's attention.
+\usepackage[most]{tcolorbox}
+\colorlet{highlightColour}{red!55!black}
+\NewTColorBox{highlight}{O{}}{%
+  empty,
+  title={#1},
+  attach boxed title to top left,
+  boxed title style={empty,size=minimal,toprule=0pt,top=4pt,left=3.5mm,bottom=5pt,overlay={}},
+  coltitle=highlightColour,
+  fonttitle=\bfseries,
+  before=\par\medskip\noindent,
+  bottom=0pt,
+  overlay unbroken={%
+    \draw[highlightColour,line width=3pt]
+      % Attach to title if any, otherwise attach to frame.
+      ([xshift=-0pt] \IfBlankTF{#1}{frame}{title}.north west)
+      --
+      ([xshift=-0pt] frame.south west);%
+  },
+}
+
+\begin{document}
+
+%%% TOP
+\betterThreeColumns{                                           % LEFT
+  \title{Pivotality, Twisted \\ Centres, and the Anti-Double of a Hopf Monad}
+  \vspace{-0.5em}
+  \author{Tony Zorman {\hfill\normalsize Based on joint work with}}
+  \vspace{0.3em}
+  \institution{TU Dresden {\hfill\normalsize Sebastian Halbig and Mateusz Stroiński}}
+
+  \bigskip\bigskip
+  Let \((\cat{C}, \otimes, 1)\) be a \emph{rigid} monoidal category:
+  for all \(x \in \cat{C}\)
+  there exist left and right dual objects \(\ld{x}, \rd{x} \in \cat{C}\),
+  with appropriate evaluation and coevaluation morphisms.
+  \bigskip\bigskip
+
+  % There seems to be a really obvious defect of Libertine in that the
+  % single `f'… "reaches" very far to the right. This is even worse with
+  % the italics version, but a roman shape is enough to notice it (or,
+  % rather, feel like there *should* be a space there and maybe the
+  % author forgot to put one in). Still, I like the font enough to try
+  % and work around this, instead of going back to one of the noble
+  % old-style fonts like Baskerville or Palatino. Hence, an `f' followed
+  % by maths mode should get a little extra space.
+  Objects of the \emph{centre} \(\cent{C}\) of\, \(\cat{C}\) are
+  pairs of an \(x \in \cat{C}\) and a \emph{half braiding}
+  \[
+    \sigma_{x, \blank}\from x \otimes \blank \,\Iso\, \blank \otimes x.
+  \]
+
+  \bigskip\bigskip
+  A strong monoidal endofunctor \(T\from \cat{C}\to \cat{C}\) is \emph{centralisable}
+  if the following coend exists:\\[-0.7em]
+  \[
+    Z_T \defeq \int\limits^{x \in \cat{C}} \ld{Tx} \otimes \blank \otimes x.
+  \]
+
+  \bigskip\bigskip\bigskip
+  By work of Day and Street, the \emph{central monad} \(\mathfrak{D} \defeq Z_{\Id_{\cat{C}}}\)
+  has the property \(\cent{C} \simeq \cat{C}^{\mathfrak{D}}\).
+}{                                                             % MIDDLE
+  \bigskip
+  In fact, \(\mathfrak{D}\) has more structure:
+  it is a \emph{bimonad},
+  a monoid in the category \(\mathrm{OpLax}(\cat{C},\cat{C})\) of oplax monoidal endofunctors,
+  and furthermore also a \emph{Hopf monad}—%
+  its category of algebras is rigid monoidal.
+
+  \bigskip\bigskip
+  Intertwined with \(\mathfrak{D}\) is the \emph{anti-central monad} \(\mathfrak{A} \defeq Z_{\lld{(\blank)}}\).
+  Unravelling the structure of\, \(\mathfrak{A}\) over \(\mathfrak{D}\) involves the study of twisted centres.
+
+  \bigskip\bigskip
+  The \emph{left twisted centre} \(\cent[T]{C}\) of\, \(\cat{C}\) by \(T\)
+  comprises half braidings of the form
+  \[
+    \sigma_{x, \blank} \from x \otimes \blank \,\Iso\, T(\blank) \otimes x.
+  \]
+  The centre \emph{acts} on the left twisted centre from the right:
+  \(\cent[T]{C} \curvearrowleft \cent{C}\).
+
+  \bigskip\bigskip
+  An \emph{invertible} object in \(\cent[\rrd{(\blank)}]{C}\)
+  induces a cyclic action on hom spaces:\\[-0.4em]
+  \[
+    \tikzfig{application}
+  \]
+}{                                                             % RIGHT
+  \bigskip
+  The monadic interpretation not only yields \(\cat{C}^{Z_T} \simeq \cent[T]{C}\),
+  but also reflects the right action: \(Z_T\) is a \emph{comodule monad} over \(\mathfrak{D}\).
+  This means that there exists a compatible coaction
+  \[
+    \delta \from Z_T(\blank \ract {=}) \nt Z_T(\blank) \ract \mathfrak{D}({=}).
+  \]
+
+  \bigskip\bigskip
+  Comodule monads admit a graphical interpretation,
+  generalising a monoidal string diagrammatic calculus introduced by Willerton:
+  \[
+    \tikzfig{comodule-functor}
+  \]\\[-1em]
+
+  \begin{highlight}[Theorem (Halbig--Z)]
+    Let \(\stdadj\) be a strong monoidal adjunction
+    and \(\adj{G}{V}{\cat{M}}{\cat{N}}\) an adjunction,
+    where \(\cat{M} \curvearrowleft \cat{C}\) and \(\cat{N} \curvearrowleft \cat{D}\).
+
+    Then strong comodule structures on \(V\) are in
+    bijective correspondence with lifts of\, \(G \dashv V\) to a comodule adjunction.
+  \end{highlight}
+}
+
+%%% MIDDLE
+\maincolumn{
+  \bigskip\bigskip\bigskip\bigskip
+  \begin{minipage}{\textwidth}
+    \hspace*{0.1em}\begin{minipage}{0.75\textwidth}
+      \centering
+      Pivotality of a category can\\[-0.37em]
+      be decided by an isomor-\\[-0.37em]
+      phism between its central\\[-0.37em]
+      and anti-central monad.
+    \end{minipage}\begin{minipage}{\textwidth}
+      {\hspace{0.2em}{\LARGE Paper, Poster, References}\\[0.1em]
+        \mbox{\hspace{0.45em}\qrcode[nolinks, height=13cm]{https://tony-zorman.com/ct2024}}}
+    \end{minipage}
+  \end{minipage}
+  \bigskip\bigskip\bigskip\bigskip
+}
+
+%%% BOTTOM
+\betterThreeColumns{                                           % LEFT
+  These results about comodule adjunctions can be applied in various contexts
+  in order to obtain monadic reconstruction theorems.\\[-0.4em]
+
+  \begin{highlight}[Corollary (Halbig--Z)]
+    Let \(B\) be a bimonad on \(\cat{C}\)
+    and \(K\) a monad on a right \(\cat{C}\)-module category \(\cat{M}\).
+    Comodule monad structures of\, \(K\) on \(B\)
+    are in bijection with
+    right actions of\, \(\cat{C}^B\) on \(\cat{M}^K\)
+    such that \(U^K\) is a strict comodule functor over \(U^B\).
+  \end{highlight}
+
+  \begin{highlight}[Theorem (Stroiński--Z)]
+    If\, \(\cat{C}\) is a \textit{nice} abelian category
+    then all \textit{nice} abelian \(\cat{C}\)-module categories \(\cat{M}\) are of the form \(\cat{C}^{\bot}\),
+    for a comonad \(\bot\) on \(\cat{C}\).
+  \end{highlight}
+
+  As a bimonad \(B\) on \(\cat{C}^H\) is just a monoid in \(\mathrm{OpLax}(\cat{C}^H,\cat{C}^H)\),
+  it can act from the right on another oplax monoidal functor \(L\) on \(\cat{C}^H\).
+  This yields an \emph{oplax monoidal right action} \(\alpha\from LB \nt L\),
+  which induces an action of twisted centres
+  \(\cent*[L]{\cat{C}^H} \curvearrowleft \cent*[B]{\cat{C}^H}\).
+
+  \bigskip\bigskip
+  In particular, this action transcends to one of the
+  \emph{cross product} \(B \rtimes H\) on \(L \rtimes H\),
+  where \eg,
+  \[
+    B \rtimes H \defeq U^H B F^H \from \cat{C} \to \cat{C}.
+  \]
+}{                                                             % MIDDLE
+  Following \Bruguieres{} and Virelizier,
+  who proved an analogous result in the bimonadic case,
+  one obtains a version of Beck's theorem of \emph{distributive laws}.\\[-0.4em]
+  \begin{highlight}
+    \(Z_L\) lifts \(Z_{L \rtimes H}\) as a comodule monad,
+    and \(Z_B\) lifts \(Z_{B \rtimes H}\) as a bimonad.
+    In particular, there exists a comodule distributive law \((\Omega, \Lambda)\),
+    such that
+    \(Z_L \rtimes H = Z_{L \rtimes H} \circ_{\Omega} H\)
+    as well as
+    \(Z_B \rtimes H = Z_{B \rtimes H} \circ_{\Lambda} H\).
+  \end{highlight}
+
+  The case
+  \(B \defeq \Id_{\cat{C}^H},\ {L \defeq \lld{(\blank)}\from \cat{C}^{H} \to \cat{C}^{H}}\)
+  is of particular importance,
+  and we call
+  \(D(H) \defeq Z_{\Id_{\cat{C}^{H}}} \rtimes H\)
+  the \emph{double} of\, \(H\)
+  and
+  \(A(H) \defeq Z_{\lld{(\blank)}} \rtimes H\)
+  the \emph{anti-double}
+  of\, \(H\).
+  We are left to untangle a web of adjunctions: \\[0.4em]
+  \mbox{\hspace{0.8em}\ensuremath{%
+    \begin{tikzcd}[column sep={2.4cm,between origins}, row sep={2cm,between origins}, font=\normalsize, every label/.append style = {font=\small}]
+      & &
+      \cent*{\cat{C}^H}
+      \arrow[rrddd, "\text{forget}"description, bend left=21]
+      \arrow[lldddd, leftrightarrow, "\Sigma^{(\mathfrak{D})}" description, bend left=12]
+      & & & &
+      \cent*[\lld{(\blank)}]{\cat{C}^H}
+      \arrow[llddd, "\text{forget}" description, bend left=21]
+      \arrow[llll, "action" description, no head, dotted]
+      \arrow[rrdddd, leftrightarrow, "\Sigma^{(\mathfrak{A})}" description, bend right=15]
+      & & \\
+      & & & & & & & & \\
+      & & & & & & & & \\
+      & & & &
+      {\cat{C}^H}
+      \arrow[rruuu, "\text{free}" description, bend left=21]
+      \arrow[lluuu, "\text{free}" description, bend left=21]
+      \arrow[lllld, "F^{\mathfrak{D}}" description, bend left=20]
+      \arrow[rrrrd, "F^{\mathfrak{A}}" description, bend left=20]
+      \arrow[ddd, "U^H" description, bend left]
+      & & & & \\
+      {{\cat{C}^H}}^{\mathfrak{D}}
+      \arrow[rrrru, "U^{\mathfrak{D}}" description, bend left=20]
+      \arrow[rrdddd, leftrightarrow, "\Sigma^{(D(H))}" description, bend left=15]
+      & & & & & & & &
+      {{\cat{C}^H}}^{\mathfrak{A}}
+      \arrow[llllu, "U^{\mathfrak{A}}" description, bend left=20]
+      \arrow[lldddd, leftrightarrow, "\Sigma^{(A(H))}" description, bend right=15]
+      \\
+      & & & & & & & & \\
+      & & & &
+      \cat{C}
+      \arrow[uuu, "F^H" description, bend left]
+      \arrow[rrdd, "F^{A(H)}" description, bend left]
+      \arrow[lldd, "F^{D(H)}" description, bend left]
+      & & & & \\
+      & & & & & & & & \\
+      & &
+      \cat{C}^{D(H)}
+      \arrow[rruu, "U^{D(H)}" description, bend left]
+      & & & &
+      \cat{C}^{A(H)}
+      \arrow[lluu, "U^{A(H)}" description, bend left]
+      \arrow[llll, "action" description, no head, dotted]
+      & &
+    \end{tikzcd}%
+  }}\\[0.4em]
+}{                                                             % RIGHT
+  This leads to a result analogous to a theorem by Hajac and Sommerhäuser.\\[-0.4em]
+
+  \begin{highlight}[Theorem (Halbig--Z)]
+    The following statements are equivalent:
+    \bigskip
+    \begin{enumerate}[leftmargin=1em]
+      \item The monoidal unit \(1 \in \cat{C}\) lifts to \(\cat{C}^{A(H)}\).
+      \item \(D(H) \cong A(H)\) as comodule monads.
+      \item \(D(H) \cong A(H)\) as monads.
+    \end{enumerate}
+    \bigskip
+    If\, \(\cat{C}\) is pivotal,
+    the above statements are also equivalent to
+    \(H\) admitting a so-called \emph{pair in involution}.\\[-1em]
+  \end{highlight}
+
+  Pairs in involution for Hopf monads generalise the classical case:
+  they consist of a group-like and a character,
+  such that the square of the antipode mediates between their adjoint actions.
+
+  \bigskip\bigskip
+  Setting \(H \defeq \Id_{\cat{C}}\) in the above theorem,
+  and using that \(D(\Id_{\cat{C}}) \cong \mathfrak{D}\) and \(A(\Id_{\cat{C}}) \cong \mathfrak{A}\),
+  one obtains an insight about pivotal structures.\\[-0.4em]
+
+  \begin{highlight}[Corollary (Halbig--Z)]
+    If\, \(\cat{C}\) admits \(\mathfrak{D}\) and \(\mathfrak{A}\),
+    then \(\cat{C}\) is pivotal if and only if\, \(\mathfrak{D} \cong \mathfrak{A}\) as monads.
+  \end{highlight}
+}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,6 @@
+[submodule "latex-styles"]
+	path = latex-styles
+	url = https://github.com/slotthe/latex-styles
+[submodule "betterposter"]
+	path = betterposter
+	url = https://github.com/slotthe/betterposter

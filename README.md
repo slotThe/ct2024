@@ -2,7 +2,7 @@
 
 Source code for my [CT2024](https://www.usc.gal/regaca/ct2024/) poster.
 [Here](https://tony-zorman.com/ct2024) is the accompanying website with the main references and additional notes.
-A prebuild PDF of the poster is available [here](https://tony-zorman.com/ct2024-poster/poster.pdf).
+A prebuild PDF of the poster is available [here](https://tony-zorman.com/posters/ct2024/poster.pdf).
 
 ## Cloning
 
